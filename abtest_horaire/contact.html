@@ -1,0 +1,187 @@
+<script>
+    var caisseId = "GMED"
+</script>
+<style>
+    #weekday { display: none; }
+    .module-contact { font-family: 'Open Sans', Helvetica, Arial, sans-serif; }
+    .tunnel-global ~ [role="complementary"] .module-contact li.icon-calendar-cb::before {
+        background-image: url('https://www.groupama.fr/documents/20295/1281616/calendar.svg/c5313ea8-5557-4404-8c7b-7ed9237cb100');
+        height: 28px;
+        width: 28px;
+        background-size: 100% 100%;
+        background-position: 0 0;
+        top: 13px;
+    }
+    .icon-calendar-cb a {
+        padding: 0 !important;
+    }
+    .subcallback-content {
+        font-size: 14px;
+    }
+
+    .fw-600 {
+        font-weight: 600 !important;
+    }
+
+    .pb-8 {
+        padding-bottom: 8px;
+    }
+
+    .mt-8 {
+        margin-top: 8px;
+    }
+
+    .mt-0 {
+        margin-top: 0;
+    }
+</style>
+<section class="module-contact">
+    <h1 class="tt1">Nous contacter</h1>
+    <ul>
+        <li class="icon-phone fw-600" id="appel-phone"><a id="appelBouton">Je contacte un conseiller</a></li>
+        <li class="icon-phone" style="display: none;">
+            <p>Je contacte un conseiller<b><span class="number">02 72 24 52 79</span></b>
+                <small><span class="cout">Coût d'un appel local</span></small></p>
+        </li>
+        <span class="hiddennumber" style="display: none;">02 72 24 52 79</span>
+        <li class="icon-callback fw-600" id="horaire-callback" style="display: none;">
+            <p><a href="/assurance/commun/webcallback2.do">Un conseiller me rappelle immédiatement</a></p>
+        </li>
+        <li class="icon-calendar-cb">
+            <p class="fw-600"><a href="/assurance/commun/webcallback2.do">Je planifie un rappel </a></p>
+            <p class="subcallback-content mt-8" id="weekday">Du lundi au vendredi : </p>
+            <p style="display: none;" class="pb-8 mt-0" id="horaire-week"></p>
+            <p style="display: none;" id="horaire-weekend-container"><span class="subcallback-content">Samedi : </span></span></p><p><span id="horaire-weekend"></p>
+        </li>
+        <li class="icon-map ">
+            <form action="#" method="post">
+                <fieldset>
+                    <p>
+                        <label for="searchOffice" class="fw-600">Je trouve une agence</label>
+                        <input type="search" id="searchOffice" name="searchOffice" placeholder="code postal">
+                        <button type="button" id="searchButton" class="bt-icon icon-tick"></button>
+                        <em id="searchOfficeError" style="display:none;"></em>
+                    </p>
+                </fieldset>
+            </form>
+        </li>
+
+    </ul>
+</section>
+<script>
+    function addZero(i) {
+    if (i < 10) i = "0" + i
+    return i
+}
+
+/**
+ * Renvoi true si  l'agence est ouverte actuellement
+ * @param {string} h représente l'horaire d'ouverture du jour format => 'HHhMM-HHhMM'
+ * @return {boolean}
+ */
+function isOpened(h) {
+    if( !h ) return undefined
+    var actualTime = new Date()
+    var actualHour = actualTime.getHours()
+    var actualMinute = actualTime.getMinutes()
+
+    var actualStringTime = parseInt( actualHour.toString() + addZero(actualMinute.toString()) )
+    
+    var horaire = h.split('-')
+    for( var i = 0; i < horaire.length; i++ ) {
+        horaire[i] = horaire[i].replace('h', '')
+        horaire[i] = parseInt( horaire[i] )
+    }
+    if( actualStringTime >= horaire[0] && actualStringTime <= horaire[1] ) {
+        return true
+    }
+    return false
+}
+
+function isWeekDay() {
+    var actualTime = new Date()
+    var day = actualTime.getDay()
+    if( day == 6 || day == 7 ) {
+        return false
+    }
+    return true
+}
+function isSunday() {
+    return new Date().getDay() == 7
+}
+/**
+ * Horaire des caisses
+ * Respecter la syntaxe
+ */
+var caissesHoraires = {
+    "GMED": {
+        week: "8h00-18h00",
+        weekend: "9h00-12h30"
+    },
+    "LBR": {
+        week: "8h30-18h30",
+        weekend: "8h30-16h30"
+    },
+    "GCA": {
+        week: "8h30-18h00"
+    },
+    "GGE": {
+        week: "8h45-18h00",
+        weekend: "9h-11h30"
+    },
+    "PVL": {
+        week: "9h00-18h30",
+        weekend: "8h30-12h30"
+    },
+    "GNE": {
+        week: "8h00-19h00",
+        weekend: "9h00-16h00"
+    },
+    "GCM": {
+        week: "9h00-18h15",
+        weekend: "9h00-12h15"
+    },
+    "GOC": {
+        week: "8h30-19h00",
+        weekend: "8h30-12h30"
+    },
+    "GRAA": {
+        week: "8h30-18h00",
+        weekend: "9h00-12h00"
+    },
+    "GOI": {
+        week: "8h00-17h00"
+    },
+    "GAG": {
+        week: "7h00-16h30"
+    }
+}
+
+// Logic
+
+var horaire = caissesHoraires[caisseId]
+
+
+
+if( isWeekDay() && isOpened(horaire.week) || (!isWeekDay() && !isSunday()) && isOpened(horaire.weekend) ) {
+    document.querySelector('#horaire-callback').style.display = "block"
+} 
+
+// affichage en permanence
+
+if( 'weekend' in horaire ) {
+    document.querySelector('#horaire-weekend-container').style.display = 'block'
+    var time = horaire.weekend
+    time = time.replace('-', ' - ')
+    time = time.replace(/00/g, '')
+    document.querySelector('#horaire-weekend').innerHTML = time
+}
+if( 'week' in horaire ) {
+    var time = horaire.week
+    time = time.replace('-', ' - ')
+    time = time.replace(/00/g, '')
+    document.querySelector('#weekday').style.display = 'block'
+    document.querySelector('#horaire-week').style.display = 'block'
+    document.querySelector('#horaire-week').innerHTML = time
+}
+</script>

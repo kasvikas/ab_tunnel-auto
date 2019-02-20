@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <section class="module-contact">
+        <h1 class="tt1">Nous contacter</h1>
+        <ul>
+            <li class="icon-phone" id="appel-phone"><a id="appelBouton">Je contacte un conseiller</a></li>
+            <li class="icon-phone" style="display: none;">
+                <p>Je contacte un conseiller<b><span class="number">02 72 24 52 79</span></b> <small><span class="cout">Coût
+                            d'un appel local</span></small></p>
+            </li><span class="hiddennumber" style="display: none;">02 72 24 52 79</span>
+            <li class="icon-callback mt-8" style="display: none; border-top: 1px solid #dedede;" id="horaire-callback">
+                <p><a href="/assurance/commun/webcallback2.do" >Un conseiller me rappelle immédiatement</a></p>
+            </li>
+            <li class="icon-callback">
+                <p><a href="/assurance/commun/webcallback2.do">Je planifie un rappel </a></p>
+                <p class="subcallback-content fw-600 mt-8" id="weekday">Du lundi au vendredi :</p>
+                <p class="pb-8 mt-0" id="horaire-week"></p>
+                <p style="display: none;" id="horaire-weekend-container"><span class="subcallback-content fw-600">Samedi : </span><span id="horaire-weekend"></span></p>
+            </li>
+            <li class="icon-map ">
+                <form action="#" method="post">
+                    <fieldset>
+                        <p> <label for="searchOffice">Je trouve une agence</label> <input type="search" id="searchOffice"
+                                name="searchOffice" placeholder="code postal"> <button type="button" id="searchButton"
+                                class="bt-icon icon-tick"></button> <em id="searchOfficeError" style="display:none;"></em>
+                        </p>
+                    </fieldset>
+                </form>
+            </li>
+        </ul>
+    </section>
+    <style>
+        .subcallback-content { font-size: 14px; }
+        .fw-600 { font-weight: 600!important; }
+        .pb-8 { padding-bottom: 8px; }
+        .mt-8 { margin-top: 8px; }
+        .mt-0 { margin-top: 0; }
+    </style>
+    <script src="index.js"></script>
+</body>
+</html>

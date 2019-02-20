@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <section class="module-contact">
+        <h1 class="tt1">Nous contacter</h1>
+        <ul>
+            <li class="icon-phone fw-600" id="appel-phone"><a id="appelBouton">Je contacte un conseiller</a></li>
+            <li class="icon-phone" style="display: none;">
+                <p>Je contacte un conseiller<b><span class="number">02 72 24 52 79</span></b>
+                    <small><span class="cout">Coût d'un appel local</span></small></p>
+            </li>
+            <span class="hiddennumber" style="display: none;">02 72 24 52 79</span>
+            <li class="icon-callback fw-600" id="horaire-callback" style="display: none;">
+                <p><a href="/assurance/commun/webcallback2.do">Un conseiller me rappelle immédiatement</a></p>
+            </li>
+            <li class="icon-calendar-cb">
+                <p class="fw-600"><a href="/assurance/commun/webcallback2.do">Je planifie un rappel </a></p>
+                <p class="subcallback-content mt-8" id="weekday">Lundi - vendredi : </p>
+                <p class="pb-8 mt-0" id="horaire-week"></p>
+                <p style="display: none;" id="horaire-weekend-container"><span class="subcallback-content">Samedi : </span></span></p><p><span id="horaire-weekend"></p>
+            </li>
+            <li class="icon-map ">
+                <form action="#" method="post">
+                    <fieldset>
+                        <p>
+                            <label for="searchOffice" class="fw-600">Je trouve une agence</label>
+                            <input type="search" id="searchOffice" name="searchOffice" placeholder="code postal">
+                            <button type="button" id="searchButton" class="bt-icon icon-tick"></button>
+                            <em id="searchOfficeError" style="display:none;"></em>
+                        </p>
+                    </fieldset>
+                </form>
+            </li>
+
+        </ul>
+    </section>
+    <style>
+        #weekday { display: none; }
+        .module-contact { font-family: 'Open Sans', Helvetica, Arial, sans-serif; }
+        .tunnel-global ~ [role="complementary"] .module-contact li.icon-calendar-cb::before {
+            background-image: url('https://www.groupama.fr/documents/20295/1281616/calendar.svg/c5313ea8-5557-4404-8c7b-7ed9237cb100');
+            height: 28px;
+            width: 28px;
+            background-size: 100% 100%;
+            background-position: 0 0;
+            top: 13px;
+        }
+        .icon-calendar-cb a {
+            padding: 0 !important;
+        }
+        .subcallback-content {
+            font-size: 14px;
+        }
+
+        .fw-600 {
+            font-weight: 600 !important;
+        }
+
+        .pb-8 {
+            padding-bottom: 8px;
+        }
+
+        .mt-8 {
+            margin-top: 8px;
+        }
+
+        .mt-0 {
+            margin-top: 0;
+        }
+    </style>
+    <!-- <script src="index.js"></script> -->
+</body>
+
+</html>
